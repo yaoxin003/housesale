@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="text/javascript" src="/js/jquery-3.4.1.min.js"></script>
+    <script type="text/javascript" src="/js/common.js"></script>
+</head>
+<body>
+<div th:replace="house/hotHouse" /><br/><br/><br/>
+
+    <form id="searchForm" action="/house/list" method="post">
+        排序：
+        <input type="hidden" name="type" th:value="${vo.type}"/>
+        <select th:field="${vo.sort}" name="sort" >
+            <option value="" >按价格排序</option>
+            <option  th:selected="${vo.sort eq 'price_asc'}" value="price_asc">价格由低到高</option>
+            <option  th:selected="${vo.sort eq 'price_desc'}" value="price_desc">价格由高到低</option>
+        </select>&nbsp;&nbsp;&nbsp;&nbsp;<input type="submit" value="查询"/> <br/>
+        <span th:each="lis: ${ps?.list}">
+            照片：<img th:src="${lis?.firstImage}" with="100" height="200"><br/>
+             <span th:text="${lis?.id}"/>,
+            <a th:href="@{'/house/detail?houseId=' + ${lis?.id}}"><span th:text="${lis?.name}"/></a>,
+            <span th:text="${lis?.address}"/>,
+            <span th:text="${lis?.price}"/>,
+            <span th:text="${#dates.format(lis?.createTime,'yyyy-MM-dd HH:mm:ss')}"/>,
+            <span th:text="${#dates.format(lis?.updateTime,'yyyy-MM-dd HH:mm:ss')}"/><br/>
+        </span>
+
+        <div th:replace="common/pageTool ::page"></div>
+
+    </form>
+</body>
+</html>

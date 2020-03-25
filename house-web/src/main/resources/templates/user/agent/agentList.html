@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="text/javascript" src="/js/jquery-3.4.1.min.js"></script>
+    <script type="text/javascript" src="/js/common.js"></script>
+</head>
+<body>
+<form id="searchForm" action="/agency/agentList" method="post">
+
+    <span th:each="lis: ${ps?.list}">
+            照片：<img th:src="${lis?.avatar}" with="100" height="200"><br/>
+             <span th:text="${lis?.id}"/>,
+            <a th:href="@{'/agency/agentDetail?userId=' + ${lis?.id}}"><span th:text="${lis?.name}"/></a>,
+            <span th:text="${lis?.phone}"/>,
+            <span th:text="${lis?.email}"/>,
+            <span th:text="${#dates.format(lis.createTime,'yyyy-MM-dd HH:mm:ss')}"/><br/>
+        </span>
+    <div th:replace="common/pageTool ::page"></div>
+
+</form>
+</body>
+</html>

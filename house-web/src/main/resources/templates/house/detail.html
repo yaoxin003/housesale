@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="text/javascript" src="/js/jquery-3.4.1.min.js"></script>
+    <script type="text/javascript" src="/js/common.js"></script>
+</head>
+<body>
+
+<span th:if="${session?.loginUser}"><input type="button" value="取消收藏" id="unBookmark"/></span>
+<br/><br/><br/>
+
+<div th:replace="house/hotHouse"/>
+<br/><br/><br/>
+    房产名称：<span th:text="${house?.name}"/><br/>
+    小区：<span th:text="${house?.address}"/><br/>
+    <img th:src="${house?.firstImage}" with="100" height="200"/><br/>
+    价格：<span th:text="${house?.price}"/><br/>
+    类型：<span th:switch="${house?.type}">
+        <span th:case="1">销售</span>
+        <span th:case="2">出租</span>
+    </span><br/>
+    面积：<span th:text="${house?.area}"/><br/>
+    卧室数：<span th:text="${house?.beds}"/><br/>
+    卫生间数：<span th:text="${house?.baths}"/><br/>
+    评分：<span th:text="${house?.rating}"/><br/>
+    房屋描述：<span th:text="${house?.remarks}"/><br/>
+    房屋特点：<span th:text="${house?.properties}"/><br/>
+    你的评价：<input id="houseRating" />
+    <br/><br/><br/><br/>
+
+
+
+<b>联系经纪人</b><br/>
+姓名：<span th:text="${agent?.name}"/><br/>
+照片<img th:src="${agent?.avatar}" with="100" height="200"/><br/>
+手机号：<span th:text="${agent?.phone}"/><br/>
+Email：<span th:text="${agent?.email}"/><br/>
+    <br/><br/><br/><br/>
+
+
+发邮件<br/>
+    <form action="/house/leaveMsg" method="post">
+        <input type="hidden" id="houseId" name="houseId" th:value="${house?.id}"/>
+        <input type="hidden" name="userId" th:value="${agent?.id}"/>
+你的姓名：<input type="text" name="username"/><br/>
+你的邮箱：<input type="text" name="email"/><br/>
+    你的留言：<textarea name="msg"></textarea><br/>
+        <input type="submit" value="发邮件"/>
+    </form>
+<script>
+    $("#houseRating").blur(function(){
+        var rating = $(this).val();
+        var houseId = $("#houseId").val();
+        $.ajax({
+            url:"/house/rating",
+            data : {houseId: houseId, rating: rating},
+            type:"GET",
+            cache:false,
+            timeout:60000,
+            success:function (result) {
+                alert(result.success);
+            }
+        });
+    });
+
+    //收藏和取消收藏
+    $("#unBookmark").click(function(){
+        var houseId = $("#houseId").val();
+        var btn = $(this);
+        var btnval = btn.val();
+        if(btnval == '取消收藏'){
+            $.ajax({
+                url : "/house/unBookmark",
+                data : {houseId : houseId},
+                cache:false,
+                type : "GET",
+                success : function (result) {
+                    alert("取消收藏成功："+ result.success);
+                }
+            });
+            btn.val("收藏");
+        }else{
+            $.ajax({
+                url : "/house/bookmark",
+                data : {houseId : houseId},
+                cache:false,
+                type : "GET",
+                   success : function (result) {
+                       alert("收藏成功："+ result.success);
+                   }
+            });
+            btn.val("取消收藏");
+        }
+    });
+</script>
+</body>
+</html>

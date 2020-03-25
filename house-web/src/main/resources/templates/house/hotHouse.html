@@ -1,0 +1,11 @@
+<b>热门房产</b><br/>
+<span th:each="lis: ${hotHouses?.list}">
+    照片：<img th:src="${lis?.firstImage}" with="100" height="200"><br/>
+     <span th:text="${lis?.id}"/>,
+    <a th:href="@{'/house/detail?houseId=' + ${lis?.id}}"><span th:text="${lis?.name}"/></a>,
+    <span th:text="${lis?.address}"/>,
+    <span th:text="${lis?.price}"/>,
+    <span th:text="${#dates.format(lis?.createTime,'yyyy-MM-dd HH:mm:ss')}"/>,
+    <span th:text="${#dates.format(lis?.updateTime,'yyyy-MM-dd HH:mm:ss')}"/><br/>
+</span>
+<br/><br/><br/><br/><br/>

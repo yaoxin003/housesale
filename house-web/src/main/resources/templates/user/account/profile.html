@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<a href="/account/logout">signin退出</a><br/>
+<a href="/account/profile">个人信息</a><br/>
+<a href="/house/ownList">我的房产信息</a><br/>
+<a href="/house/bookmarkList">房产收藏</a><br/>
+<br/><br/><br/>
+    <form action="/account/profile" method="post">
+        照片：<img th:src="${session?.loginUser?.avatar}" with="100" height="200"><br/>
+        全名：<input type="text" name="name" th:value="${session?.loginUser?.name}"/><br/>
+        email：<span th:text="${session?.loginUser?.email}"></span>
+        <input type="hidden" name="email" th:value="${session?.loginUser?.email}"/><br/>
+        <input type="hidden" name="id" th:value="${session?.loginUser?.id}"/><br/>
+        手机号：<input type="text" name="phone" th:value="${session?.loginUser?.phone}"/><br/>
+        自我介绍：<textarea name="aboutme" th:text="${session?.loginUser?.aboutme}"></textarea><br/>
+        <input type="submit" value="修改"/>
+    </form>
+
+    <form action="/account/changePasswd" method="post">
+        <input type="hidden" name="id" th:value="${session?.loginUser?.id}"/><br/>
+        <input type="hidden" name="email" th:value="${session?.loginUser?.email}"/><br/>
+        当前密码：<input type="password" name="currPasswd"/><br/>
+        新密码：<input type="password" name="passwd" /><br/>
+        确认密码：<input type="password" name="confirmPasswd" /><br/>
+        <input type="submit" value="修改密码"/>
+    </form>
+</body>
+</html>

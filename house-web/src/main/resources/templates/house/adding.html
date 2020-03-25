@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <link rel="stylesheet" href="/bootstrap/css/bootstrap.css" type="text/css"/>
+    <link rel="stylesheet" href="/bootstrap-fileinput-master/css/fileinput.css" type="text/css"/>
+    <script type="text/javascript" src="/js/jquery-3.4.1.min.js"></script>
+    <script type="text/javascript" src="/bootstrap/js/bootstrap.js"></script>
+    <script type="text/javascript" src="/bootstrap-fileinput-master/js/fileinput.js"></script>
+    <script type="text/javascript" src="/bootstrap-fileinput-master/js/locales/zh.js"></script>
+
+    <script>
+        $(function () {
+            initFileInput("houseFiles");
+            initFileInput("floorPlanFiles");
+        });
+        function initFileInput(ctrlName) {
+            var control = $('#' + ctrlName);
+            control.fileinput({
+                language: 'zh', //设置语言
+                uploadUrl: "upload/UpLoadImage", //上传的地址
+                allowedFileExtensions: ['jpg', 'gif', 'png','jpeg'],//接收的文件后缀
+                //uploadExtraData:{"id": 1, "fileName":'123.mp3'},
+                uploadAsync: true, //默认异步上传
+                showUpload: false, //是否显示上传按钮
+                showRemove : false, //显示移除按钮
+                showPreview : true, //是否显示预览
+                showCaption: true,//是否显示标题
+                browseClass: "btn btn-primary", //按钮样式
+                maxFileCount: 5, //允许同时上传的最大文件个数
+                enctype: 'multipart/form-data',
+                validateInitialCount:true,
+                layoutTemplates:{
+                    actionUpload:'',//去除上传预览缩略图中的上传图片
+                    // actionZoom:'',   //去除上传预览缩略图中的查看详情预览的缩略图标
+                    actionDownload:'',//去除上传预览缩略图中的下载图标
+                    // actionDelete:'',//去除上传预览的缩略图中的删除图标
+                },
+                msgFilesTooMany: "选择上传的文件数量({n}) 超过允许的最大数值{m}！",
+            }).on('filepreupload', function(event, data, previewId, index) {     //上传中
+                console.log('文件正在上传');
+            }).on("fileuploaded", function (event, data, previewId, index) {    //一个文件上传成功
+                var form = data.form, files = data.files, extra = data.extra,
+                    response = data.response, reader = data.reader;
+                console.log(response);//打印出返回的json
+                console.log(response.status);//打印出路径
+            }).on('fileerror', function(event, data, msg) {  //一个文件上传失败
+                console.log('文件上传失败！'+data.status);
+            })
+        }
+    </script>
+</head>
+
+<body>
+添加你的房产<br/><br/>
+<form action="/house/add" method="post" enctype="multipart/form-data">
+    基本信息<br/>
+    标题：<input type="text" name="name"/>，
+    价格：<input type="text" name="price"/>万<br/>
+    描述：<textarea name="remarks"></textarea><br/>
+    <br/><br/><br/>
+    房源信息<br/>
+    城市：
+    <select name="cityId">
+        <option value="">--请选择--</option>
+        <option th:each="city:${cities}" th:value="${city.id}" th:text="${city.cityName}"></option>
+    </select>，
+    地址：<input type="text" name="address"/><br/>
+    小区：
+    <select name="communityId">
+        <option value="">--请选择--</option>
+        <option th:each="community:${communities}" th:value="${community.id}" th:text="${community.name}"></option>
+    </select>
+    <br/>
+    卧室：<input type="text" name="beds"/>，
+    状态：
+    <select name="type">
+        <option value="">--请选择--</option>
+        <option value="1">销售</option>
+        <option value="2">出租</option>
+    </select> <br/>
+   面积：<input type="text" name="area"/>m
+   卫生间：<input type="text" name="baths"/>
+    <br/><br/><br/>
+     上传房屋图片:<br/>
+      <input id="houseFiles" name="houseFiles" multiple="multiple" type="file"/><br/>
+    <br/><br/><br/>
+    上传户型图片:<br/>
+    <input id="floorPlanFiles" name="floorPlanFiles" multiple="multiple" type="file"/><br/>
+    <br/><br/><br/>
+    房屋特点:<br/>
+    <input name="propertiesArr" value="满五年" type="checkbox">满五年，
+    <input name="propertiesArr" value="满两年" type="checkbox">满两年，
+    <input name="propertiesArr" value="南北通透" type="checkbox">南北通，
+    <input name="propertiesArr" value="采光好" type="checkbox">采光好，
+    <input name="propertiesArr" value="高楼层" type="checkbox">高楼层<br/>
+    <input name="propertiesArr" value="环境好" type="checkbox">环境好，
+    <input name="propertiesArr" value="价格合理" type="checkbox">价格合，
+    <input name="propertiesArr" value="楼龄新" type="checkbox">楼龄新，
+    <input name="propertiesArr" value="带阳台" type="checkbox">带阳台，
+    <input name="propertiesArr" value="税少" type="checkbox">税少<br/>
+    <input name="propertiesArr" value="得房率高" type="checkbox">得房率，
+    <input name="propertiesArr" value="临地铁" type="checkbox">临地铁，
+    <input name="propertiesArr" value="学区房" type="checkbox">学区房，
+    <input name="propertiesArr" value="户型好" type="checkbox">户型好，
+    <input name="propertiesArr" value="没有遮挡" type="checkbox">没有遮<br/>
+    <input name="propertiesArr" value="次顶层"   type="checkbox">次顶层，
+    <input name="propertiesArr" value="落地窗"   type="checkbox">落地窗，
+    <input name="propertiesArr" value="精装修"   type="checkbox">精装修<br/>
+    <br/><br/><br/>
+    <input type="submit" value="新增"/>
+</form>
+
+</body>
+
+</html>

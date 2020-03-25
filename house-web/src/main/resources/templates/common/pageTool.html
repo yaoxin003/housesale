@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="page">
+    <br/><br/>
+    每页<span th:text="${ps.pagination.pageSize}"/>条，
+    当前<span th:text="${ps.pagination.pageNum}"/>页，
+    共<span th:text="${ps.pagination.pageCount}"/>页，
+    共<span th:text="${ps.pagination.totalCount}"/>记录。
+    <span th:each="num : ${ps.pagination.pages}">
+                <a href="javascript:void(0);"
+                   th:onclick="'javascript:nextPage('+ ${ps.pagination.pageSize} + ',' + ${num} + ')'">
+                    <span th:text="${num}"/></a>&nbsp;
+            </span>
+    <br/><br/>
+</div>
+</body>

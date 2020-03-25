@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+全名：<span th:text="${user?.name}"/><br/>
+照片：<img th:src="${user?.avatar}" with="100" height="200"><br/>
+email：<span th:text="${user?.email}"></span>
+手机号：<span th:text="${user?.phone}"/><br/>
+自我介绍：<span th:text="${user?.aboutme}"/><br/>
+<br/><br/>
+我代理的房产<br/>
+    <span th:each="lis: ${ps?.list}">
+        照片：<img th:src="${lis?.firstImage}" with="100" height="200"><br/>
+        <a th:href="@{'/house/detail?houseId=' + ${lis?.id}}"><span th:text="${lis?.name}"/></a>,
+         类型：<span th:switch="${lis?.type}">
+            <span th:case="1">销售</span>
+            <span th:case="2">出租</span>
+        </span>，
+        <span th:text="${lis?.address}"/>,
+        <span th:text="${lis?.price}"/>,
+        <span th:text="${#dates.format(lis?.createTime,'yyyy-MM-dd HH:mm:ss')}"/>,
+        <span th:text="${#dates.format(lis?.updateTime,'yyyy-MM-dd HH:mm:ss')}"/><br/>
+    </span>
+<br/><br/>
+
+</form>
+</body>
+</html>

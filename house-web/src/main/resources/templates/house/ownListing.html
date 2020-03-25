@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="text/javascript" src="/js/jquery-3.4.1.min.js"></script>
+    <script type="text/javascript" src="/js/common.js"></script>
+</head>
+<body>
+<span th:if="${pageType} eq 'own'">
+    我的房产信息<form id="searchForm" action="/house/ownList" method="post">
+</span>
+
+<span th:if="${pageType} eq 'bookmark'">
+    房产收藏<form id="searchForm" action="/house/bookmarkList" method="post">
+</span>
+<br/><br/><br/>
+
+    <input type="hidden" name="type" th:value="${type}"/>
+    <span th:each="lis: ${ps.list}">
+            照片：<img th:src="${lis.firstImage}" with="100" height="200"><br/>
+             <span th:text="${lis.id}"/>，
+            <a th:href="@{'/house/detail?houseId=' + ${lis.id}}"><span th:text="${lis.name}"/></a>，
+            <span th:text="${lis?.address}"/>，
+            <span th:text="${lis?.price}"/>，
+            <span th:text="${#dates.format(lis.createTime,'yyyy-MM-dd HH:mm:ss')}"/>，
+            <span th:text="${#dates.format(lis.updateTime,'yyyy-MM-dd HH:mm:ss')}"/>，
+            <input type="button" value="删除" th:data-name="${pageType}" th:onclick="delHouseUser([[${lis.id}]],[[${pageType}]])"/>
+        <br/>
+        </span>
+
+        <div th:replace="common/pageTool :: page"></div>
+
+    </form>
+
+    <script>
+        function delHouseUser(houseId,pageType){
+            var houseUserType = "";
+            if(pageType == 'own'){
+                houseUserType = true;
+            }
+            if(pageType == 'bookmark'){
+                houseUserType = false;
+            }
+            window.location.href="/house/delHouseUser?houseId=" + houseId + "&type=" + houseUserType;
+        }
+    </script>
+</body>
+</html>
