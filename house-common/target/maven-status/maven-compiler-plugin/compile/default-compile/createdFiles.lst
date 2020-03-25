@@ -1,0 +1,14 @@
+com\yx\housesale\common\model\City.class
+com\yx\housesale\common\constant\HouseConstant.class
+com\yx\housesale\common\constant\HouseUserType.class
+com\yx\housesale\common\model\Community.class
+com\yx\housesale\common\utils\BeanHelper.class
+com\yx\housesale\common\page\Pagination.class
+com\yx\housesale\common\model\HouseUser.class
+com\yx\housesale\common\result\ResultMsg.class
+com\yx\housesale\common\page\PageData.class
+com\yx\housesale\common\model\HouseMsg.class
+com\yx\housesale\common\model\House.class
+com\yx\housesale\common\utils\HashUtils.class
+com\yx\housesale\common\page\PageParam.class
+com\yx\housesale\common\model\User.class

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yx.housesale.biz.mapper.UserMapper" >
+    <sql id="userField">
+       a.id, a.name, a.email, a.phone, a.aboutme, a.passwd, a.avatar, a.type,
+       a.create_time, a.update_time, a.enable, a.agency_id
+    </sql>
+
+    <select id="selectPageUsers" resultType="com.yx.housesale.common.model.User">
+        select <include refid="userField"/>
+        from user a where a.enable=1
+        <include refid="userCondition"/>
+        <if test="pageParam.offset != null and pageParam.limit != null">
+            limit #{pageParam.offset},#{pageParam.limit}
+        </if>
+        <if test="pageParam.offset == null and pageParam.limit != null">
+            limit #{pageParam.limit}
+        </if>
+    </select>
+
+    <sql id="userCondition">
+        <if test="user.id != null and user.id != 0">
+            and a.id = #{user.id}
+        </if>
+        <if test="user.type != null">
+            and a.type = #{user.type}
+        </if>
+        <if test="user.name != null and user.name != '' ">
+            <bind name="pattern1" value="'%' + user.name + '%'"/>
+            and a.name like #{pattern1}
+        </if>
+        <if test="user.ids">
+            and a.id in
+            <foreach collection="user.ids" item="item" index="index"
+                     open="(" close=")" separator=",">
+                #{item}
+            </foreach>
+        </if>
+    </sql>
+
+    <select id="selectPageCount" resultType="int">
+        select count(id) from user a  where a.enable=1
+        <include refid="userCondition"/>
+    </select>
+</mapper>
