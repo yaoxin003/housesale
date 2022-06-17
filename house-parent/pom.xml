@@ -29,7 +29,7 @@
 		<commons.beanutils.version>1.9.3</commons.beanutils.version>
 		<commons-lang3.version>3.7</commons-lang3.version>
 		<jedis.version>2.9.0</jedis.version>
-        <fastjson.version>1.2.46</fastjson.version>
+        <fastjson.version>1.2.83</fastjson.version>
 		<nekohtml.version>1.9.22</nekohtml.version>
 		<spring-admin-client-version>2.1.0</spring-admin-client-version>
 	</properties>
