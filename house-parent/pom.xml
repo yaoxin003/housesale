@@ -20,7 +20,7 @@
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>1.8</java.version>
 		<persistence-api-version>1.0</persistence-api-version>
-		<mysql-connector-version>8.0.18</mysql-connector-version>
+		<mysql-connector-version>8.0.28</mysql-connector-version>
 		<tk-mybatis-mapper-start>2.1.5</tk-mybatis-mapper-start>
 		<druid-version>1.1.0</druid-version>
 		<guava-version>18.0</guava-version>
